@@ -1,0 +1,13 @@
+module file: mod_file.f90
+
+main file: main_file.f90
+
+
+1.) compile the module: gfortran -c mod_file.f90
+	- this generates 2 additional files mod_file.o, mod_file.mod
+
+2.) compile the main file: gfortran -c main_file.f90
+	- this generates 1 additional file main_file.o
+
+3.) compile both files together (it is important to type the module file first):
+	- gfortran mod_file.o main_file.o -o executable.exe
