@@ -1,0 +1,5 @@
+Variant T>A in sequence 1
+Variant C>T in sequence 1
+Variant del in sequence 2
+Variant A>T in sequence 3
+Variant T>A in sequence 3

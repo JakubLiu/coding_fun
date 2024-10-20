@@ -8,7 +8,7 @@
 
 
 int main() {
-    FILE *allignment_file;
+    FILE *allignment_file, *output_file;
     /*
     2D array to store the sequences, each sequence is a row,
     each nucleotide is a column.
@@ -18,6 +18,7 @@ int main() {
     int current_sequence = 0;
     int i,j,k,n_bases_in_ref,REF,ALT;
     char var[4];
+    char line[100];
 
     allignment_file = fopen("example_file_no_insert.txt", "r");
     
@@ -100,6 +101,9 @@ int main() {
     // Close the file
     fclose(allignment_file);
 
+    //open the empty output file
+    output_file = fopen("output.txt", "w");
+
     //call the variants
     for(i=1;i<N_SEQUENCES;i++){         //iterate over the sequences
         for(j=0;j<n_bases_in_ref;j++){   // iterate over the bases of the current sequence
@@ -120,11 +124,11 @@ int main() {
                 if(REF == 3 && ALT == 1){strcpy(var,"C>T");}
                 if(REF == 3 && ALT == 2){strcpy(var,"G>C");}
 
-                printf("Variant %s in sequence %d\n", var,i);
+                fprintf(output_file, "Variant %s in sequence %d\n", var, i); // write formatted text to output file
             }
         }
     }
 
-
+    printf("Output in: output.txt\n");
     return(0);
 }
