@@ -3,8 +3,8 @@
 #include <ctype.h>
 #include <stdlib.h>
 
-#define N_SEQUENCES 4     // Number of sequences (including reference)
-#define MAX_SEQUENCE_LENGTH 104  // Maximum length of each sequence
+//#define N_SEQUENCES 4     // Number of sequences (including reference)
+//#define MAX_SEQUENCE_LENGTH 104  // Maximum length of each sequence
 
 
 int main() {
@@ -13,16 +13,25 @@ int main() {
     2D array to store the sequences, each sequence is a row,
     each nucleotide is a column.
     */
+    int N_SEQUENCES, MAX_SEQUENCE_LENGTH;   // integer user input values which must be provided
+    char input_filename[100];   // string user input which must be provided
+    printf("Enter the number of sequences:\n");
+    scanf("%d", &N_SEQUENCES);
+    printf("Enter the maximum sequence length (or longer):\n");
+    scanf("%d", &MAX_SEQUENCE_LENGTH);
+    printf("Enter the relative path to the input file:\n");
+    scanf("%s", input_filename);
+    printf("_________________________________________________________________________________\n");
     char sequences_raw[N_SEQUENCES][MAX_SEQUENCE_LENGTH];
     char sequences_clean[N_SEQUENCES][MAX_SEQUENCE_LENGTH];
-    int current_sequence = 0;
-    int i,j,k,n_bases_in_ref,REF,ALT;
+    int current_sequence;
+    int i,j,k,n_bases_in_ref,REF,ALT,variant_num;
     char var[4];
     char line[100];
 
-    allignment_file = fopen("example_file_no_insert.txt", "r");
+    allignment_file = fopen(input_filename, "r");
     
-
+    current_sequence = 0;
     // Read each sequence and store it in the current row of the 2D array
     while (fgets(sequences_raw[current_sequence], MAX_SEQUENCE_LENGTH, allignment_file) != NULL) {
         /*
@@ -103,11 +112,15 @@ int main() {
 
     //open the empty output file
     output_file = fopen("output.txt", "w");
+    fprintf(output_file, "VARIANT_NUM,SEQUENCE,POSITION,TYPE\n");
+
 
     //call the variants
+    variant_num = 0;
     for(i=1;i<N_SEQUENCES;i++){         //iterate over the sequences
         for(j=0;j<n_bases_in_ref;j++){   // iterate over the bases of the current sequence
             if(sequences_int[i][j] != sequences_int[0][j]){
+                variant_num = variant_num + 1;
                 REF = sequences_int[0][j];
                 ALT = sequences_int[i][j];
                 if(ALT == -9){strcpy(var, "del");}
@@ -124,7 +137,7 @@ int main() {
                 if(REF == 3 && ALT == 1){strcpy(var,"C>T");}
                 if(REF == 3 && ALT == 2){strcpy(var,"G>C");}
 
-                fprintf(output_file, "Variant %s in sequence %d\n", var, i); // write formatted text to output file
+                fprintf(output_file, "%d,%d,%d,%s\n",variant_num,i,j+1,var);
             }
         }
     }

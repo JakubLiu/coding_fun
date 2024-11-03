@@ -1,5 +1,6 @@
-Variant T>A in sequence 1
-Variant C>T in sequence 1
-Variant del in sequence 2
-Variant A>T in sequence 3
-Variant T>A in sequence 3
+VARIANT_NUM,SEQUENCE,POSITION,TYPE
+1,1,2,T>A
+2,1,5,C>T
+3,2,2,del
+4,3,7,A>T
+5,3,8,T>A
