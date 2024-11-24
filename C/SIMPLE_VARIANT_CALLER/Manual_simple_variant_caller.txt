@@ -1,0 +1,10 @@
+FLAGS:
+
+-i --> input file
+-o --> output file
+-nseq --> number of sequences (with reference sequence)
+-max_seq_len --> maximum sequence length (or more)
+
+EXAMPLE:
+
+./a.out -i example_input_file.txt -nseq 4 -o hope2.txt -max_seq_len 100

@@ -1,0 +1,8 @@
+https://chatgpt.com/share/673a3784-3644-8006-a387-2df898258434
+
+https://publications.gbdirect.co.uk/c_book/chapter10/arguments_to_main.html
+
+- in our case the cmd line arguments for the input and output files will correspond to input_filename and "output.txt"
+- replace them by the cmd line arguments
+- loop over the flags as in the example
+- when this is done, add the cmd line arguments for the number of sequences and the max sequence length

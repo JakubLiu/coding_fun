@@ -7,25 +7,55 @@
 //#define MAX_SEQUENCE_LENGTH 104  // Maximum length of each sequence
 
 
-int main() {
+int main(int argc, char *argv[]) {
     FILE *allignment_file, *output_file;
     /*
     2D array to store the sequences, each sequence is a row,
     each nucleotide is a column.
     */
-    int N_SEQUENCES, MAX_SEQUENCE_LENGTH;   // integer user input values which must be provided
-    char input_filename[100];   // string user input which must be provided
-    printf("Enter the number of sequences:\n");
-    scanf("%d", &N_SEQUENCES);
-    printf("Enter the maximum sequence length (or longer):\n");
-    scanf("%d", &MAX_SEQUENCE_LENGTH);
-    printf("Enter the relative path to the input file:\n");
-    scanf("%s", input_filename);
-    printf("_________________________________________________________________________________\n");
+    char* input_filename;  // -i flag for input filename
+    char* output_filename; // -o flag for output filename
+    int N_SEQUENCES;     // -nseq flag for N_SEQUENCES
+    int MAX_SEQUENCE_LENGTH;  // -max_seq_len flag for MAX_SEQUENCE_LENGTH
+
+    int i;
+
+    // iterate over the command line arguments, but start from i=1, because the 1st command line argument is always the programme name
+    for(i=1;i<argc;i++){
+
+        if(strcmp(argv[i], "-i") == 0 && i + 1 < argc){ // look for the "-i" flag
+            input_filename = argv[i+1];  // if flag is found the next argument will be the filename itself
+            i = i + 1;  // increment i, because the next argument is the filename
+        }
+
+        else if(strcmp(argv[i], "-o") == 0 && i + 1 < argc){
+            output_filename = argv[i+1];
+            i = i + 1;
+        }
+
+        else if(strcmp(argv[i], "-nseq") == 0 && i + 1 < argc){
+            N_SEQUENCES = atoi(argv[i+1]);   // we need to convert to integer
+            i = i + 1;
+        }
+
+        else if(strcmp(argv[i], "-max_seq_len") == 0 && i + 1 < argc){
+            MAX_SEQUENCE_LENGTH = atoi(argv[i+1]);
+            i = i + 1;
+        }
+
+        else{
+            printf("No such flag is recognized.");
+        }
+    }
+
+
+
+
+
     char sequences_raw[N_SEQUENCES][MAX_SEQUENCE_LENGTH];
     char sequences_clean[N_SEQUENCES][MAX_SEQUENCE_LENGTH];
     int current_sequence;
-    int i,j,k,n_bases_in_ref,REF,ALT,variant_num;
+    int j,k,n_bases_in_ref,REF,ALT,variant_num;
     char var[4];
     char line[100];
 
@@ -111,7 +141,7 @@ int main() {
     fclose(allignment_file);
 
     //open the empty output file
-    output_file = fopen("output.txt", "w");
+    output_file = fopen(output_filename, "w");
     fprintf(output_file, "VARIANT_NUM,SEQUENCE,POSITION,TYPE\n");
 
 
@@ -142,6 +172,7 @@ int main() {
         }
     }
 
-    printf("Output in: output.txt\n");
+    //printf("Output in: output.txt\n");
+    printf("Output in %s\n", output_filename);
     return(0);
 }
